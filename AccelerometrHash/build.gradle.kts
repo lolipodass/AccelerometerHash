@@ -4,16 +4,6 @@ plugins {
     id("maven-publish")
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                from (components["release"])
-                version = System.getenv("GIT_TAG") ?: "1.0.0"
-            }
-        }
-    }
-}
 android {
 
     namespace = "kal.fit.bstu.accelerometrhash"
@@ -22,7 +12,6 @@ android {
     defaultConfig {
         minSdk = 22
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
