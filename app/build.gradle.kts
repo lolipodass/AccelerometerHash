@@ -1,3 +1,5 @@
+import kotlin.script.experimental.jvm.util.classpathFromClass
+
 plugins {
     id("maven-publish")
     alias(libs.plugins.androidLibrary)
@@ -7,7 +9,7 @@ plugins {
 afterEvaluate {
     publishing {
         publications {
-            create<MavenPublication>("release") {
+            create<MavenPublication>("maven") {
                 from(components["release"])
 
                 groupId = "com.github.lolipodass"
@@ -43,11 +45,16 @@ android {
         }
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
