@@ -16,6 +16,7 @@ public class AccelerometerHash(context: Context) : SensorEventListener {
     init {
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        System.loadLibrary("app")
     }
 
     fun startReading() {
@@ -51,5 +52,16 @@ public class AccelerometerHash(context: Context) : SensorEventListener {
 
     fun isDataSizeReached(): Boolean {
         return sensorData.size >= DATA_SIZE
+    }
+
+    fun reset() {
+        sensorData.clear()
+    }
+
+    external fun processSensorData(sensorData : ByteArray?) : ByteArray?
+
+    fun getCpp(): String {
+        val processedData = processSensorData(sensorDataToBytes())
+        return processedData?.let { String(it) } ?: ""
     }
 }
